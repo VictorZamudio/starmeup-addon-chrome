@@ -1,5 +1,5 @@
 window.onload = function(){
-  StarmeupAddonFacebook.isVisible = false;
+  // StarmeupAddonFacebook.isVisible = false;
 
   chrome.tabs.getSelected(null, function(tab){
     // chrome.tabs.onUpdated.addListener(null, function(){
@@ -10,9 +10,6 @@ window.onload = function(){
 
 
   $('#logOut').on('click', function(e){
-    chrome.storage.local.remove(['logged', 'profile'], function(data){
-      console.log('data removed: ', data);
-    });
     chrome.tabs.getSelected(null, function(tab){
       chrome.tabs.sendMessage(tab.id, {'remove': true});
     });
@@ -31,24 +28,28 @@ window.onload = function(){
       if (xhr.readyState == 4) {
         var data = JSON.parse(xhr.responseText);
         var profile = data.result;
-        chrome.storage.local.set({
-          'logged': true
-        }, function(){
-          if(StarmeupAddonFacebook.isVisible === false){
-            StarmeupAddonFacebook.isVisible = true;
-            console.log('--------------------------------------');
-            console.log('popup.js');
-            console.log('profile: ', profile);
-            // console.log('profile.company: ', profile.organizationName);
-            // console.log('profile.position: ', profile.job);
-            // console.log('profile.ofice.name: ', profile.office.name);
-            // console.log('profile.area: ', profile.area);
-            // console.log('profile.project: ', profile.project);
-            // console.log('profile.account: ', profile.account);
+        // localStorage.setItem('profileLS', profile);
+        // console.log("localStorage['profileLS']: ", localStorage['profileLS']);
+        StarmeupAddonFacebook.addProfile(profile);
 
-            StarmeupAddonFacebook.addProfile(profile);
-          }
-        });
+        // chrome.storage.local.set({
+        //   'logged': true
+        // }, function(){
+        //   if(StarmeupAddonFacebook.isVisible === false){
+        //     StarmeupAddonFacebook.isVisible = true;
+        //     console.log('--------------------------------------');
+        //     console.log('popup.js');
+        //     console.log('profile: ', profile);
+        //     // console.log('profile.company: ', profile.organizationName);
+        //     // console.log('profile.position: ', profile.job);
+        //     // console.log('profile.ofice.name: ', profile.office.name);
+        //     // console.log('profile.area: ', profile.area);
+        //     // console.log('profile.project: ', profile.project);
+        //     // console.log('profile.account: ', profile.account);
+        //
+        //     StarmeupAddonFacebook.addProfile(profile);
+        //   }
+        // });
       }else{
         // alert('Error');
         // console.log('Error');
