@@ -1,0 +1,65 @@
+// compileCompressed: ../css/$1.min.css
+$colorLinks: #00acae
+
+
+body
+  font-family: 'Open Sans', sans-serif
+  background-color: #b3dad9
+  // color: white
+
+a
+  color: $colorLinks
+
+  &:hover
+    text-decoration: none
+    color: $colorLinks
+
+.container
+  width: 24em
+  padding: 1.8em 0 0 0
+
+  .col-md-12
+    padding: 0
+
+
+  form
+    padding: 2em 2.5em 0 2em
+    color: #666
+    font-weight: normal
+
+  label
+    font-weight: normal
+    margin-top: 0.2em
+    color: #888
+
+  .forgot
+    float: right
+
+
+  input
+    width: 100%
+    height: 2.15em
+    padding: 0.1em 0.5em
+    border: none
+    border-radius: 2px
+
+  .error
+    display: none
+
+    &.show
+      display: block
+
+  button
+    width: 100%
+    background-color: $colorLinks
+    color: white
+    border: none
+    padding: 0.6em
+    margin-top: 0.6em
+    border-radius: 2px
+
+    &:hover
+      opacity: 0.5
+
+  .eula
+    font-size: 0.86em
