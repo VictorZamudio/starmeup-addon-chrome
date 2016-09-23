@@ -1,9 +1,9 @@
 var StarmeupAddonFacebook = StarmeupAddonFacebook || {};
 StarmeupAddonFacebook.enabledLogger = true;
+console.log('STARMEUP.JS');
 
 StarmeupAddonFacebook.getLogger = function(name){
   if (StarmeupAddonFacebook.enabledLogger) {
-    // alert('StarmeupAddonFacebook.enabledLogger: ' + StarmeupAddonFacebook.enabledLogger);
     return {
           debug: console.log.bind(console, '[' + name + ']: '),
           log: console.log.bind(console, '[' + name + ']: '),
@@ -26,19 +26,14 @@ StarmeupAddonFacebook.addProfile = function(profile){
   chrome.storage.local.set({
     'profile': profile
   }, function(){
-
-
-
-      // StarmeupAddonFacebook.addProfile(profile);
-      console.log('-----------------');
-      console.log('addProfile');
-      console.log('profile: ', profile);
-      console.log('profile: ', profile.office.name);
       chrome.tabs.getSelected(null, function(tab){
+        console.log('tab: ', tab);
+        chrome.tabs.sendMessage(tab.id, {'type': 'profile', 'profile': profile});
+
         chrome.webNavigation.onCompleted.addListener(function (){
-          chrome.tabs.sendMessage(tab.id, {'page_loaded': 'true', 'profile': profile});
+          chrome.tabs.sendMessage(tab.id, {'type': 'load', 'page_loaded': 'true', 'profile': profile});
         });
-        chrome.tabs.sendMessage(tab.id, {'profile': profile});
+
       });
   });
 
@@ -49,6 +44,7 @@ StarmeupAddonFacebook.render = function(msg){
   var logger = StarmeupAddonFacebook.getLogger('Rendering');
   var pagelet_welcome_box = $('#pagelet_welcome_box');
   var profile = msg;
+  /**/
   profile.office.name += ' - Buenos Aires, ARG';
 
   if (profile.job === '') {
@@ -57,13 +53,12 @@ StarmeupAddonFacebook.render = function(msg){
   if (profile.account === '') {
     profile.account = 'Johnson & Johnson';
   }
-
+  /**/
   if ($('#pagelet_welcome_box').length === 0) {
-    logger.error('Can not find element container');
+    logger.error('Can\'t find element container');
     return false;
   }else{
-    logger.log('pagelet_welcome_box: ', pagelet_welcome_box);
-
+    // logger.log('pagelet_welcome_box: ', pagelet_welcome_box);
     if ($('#starmeUpAddonFacebook').length === 0) {
       // var container = $('#starmeUpAddonFacebook');
       $('#pagelet_welcome_box').after('<div id="starmeUpAddonFacebook"></div>');
@@ -77,47 +72,17 @@ StarmeupAddonFacebook.render = function(msg){
     }else{
       logger.warn('StarmeupAddonFacebook already added :(|)');
     }
-    // var starmeupFrame = new StarmeupAddonFacebook.Frame(container);
-    // starmeupFrame.addProfile(StarmeupAddonFacebook.profile);
     return true;
   }
 
-    console.log('---------------------------------');
-    console.log('render says', profile);
-    console.log(msg);
-    // return;
-    // console.log('profile.company: ', profile.organizationName);
-    // console.log('profile.position: ', profile.job);
-    // console.log('profile.ofice.name: ', profile.office.name);
-    // console.log('profile.area: ', profile.area);
-    // console.log('profile.project: ', profile.project);
-    // console.log('profile.account: ', profile.account);
 };
 
 StarmeupAddonFacebook.remove = function () {
-  var logger = StarmeupAddonFacebook.getLogger('Remove Addon');
+  var logger = StarmeupAddonFacebook.getLogger('Remove Profile');
   $('#starmeUpAddonFacebook').slideUp(function(){
     $('#starmeUpAddonFacebook').remove();
     localStorage.removeItem('profileLS');
     localStorage.removeItem('profile_loaded');
     logger.info('StarmeupAddonFacebook removed');
-    // StarmeupAddonFacebook.isVisible = false;
   });
-};
-
-StarmeupAddonFacebook.decorateFacebook = function(){
-  var logger = StarmeupAddonFacebook.getLogger('Amazing Facebook Addon');
-  logger.debug('decorateFacebook');
-
-  var container = $('#pagelet_welcome_box ul');
-
-  if (container === null) {
-    logger.debug('Can not find element container');
-    return false;
-  }else{
-    logger.log('container: ', container);
-    var starmeupFrame = new StarmeupAddonFacebook.Frame(container);
-    // starmeupFrame.addProfile(StarmeupAddonFacebook.profile);
-    return true;
-  }
 };

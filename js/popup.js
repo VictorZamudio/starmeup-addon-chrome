@@ -1,17 +1,9 @@
 window.onload = function(){
-  // StarmeupAddonFacebook.isVisible = false;
-
-  chrome.tabs.getSelected(null, function(tab){
-    // chrome.tabs.onUpdated.addListener(null, function(){
-    //   alert('hi');
-    // });
-  });
-
-
+  console.log('POPUP.JS');
 
   $('#logOut').on('click', function(e){
     chrome.tabs.getSelected(null, function(tab){
-      chrome.tabs.sendMessage(tab.id, {'remove': true});
+      chrome.tabs.sendMessage(tab.id, {'type': 'remove'});
     });
   });
 
@@ -27,34 +19,16 @@ window.onload = function(){
     xhr.open('POST', url, true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
+        // console.log('xhr.responseText: ', xhr.responseText);
         var data = JSON.parse(xhr.responseText);
-        var profile = data.result;
-        // localStorage.setItem('profileLS', profile);
-        // console.log("localStorage['profileLS']: ", localStorage['profileLS']);
-
-        StarmeupAddonFacebook.addProfile(profile);
-
-        // chrome.storage.local.set({
-        //   'logged': true
-        // }, function(){
-        //   if(StarmeupAddonFacebook.isVisible === false){
-        //     StarmeupAddonFacebook.isVisible = true;
-        //     console.log('--------------------------------------');
-        //     console.log('popup.js');
-        //     console.log('profile: ', profile);
-        //     // console.log('profile.company: ', profile.organizationName);
-        //     // console.log('profile.position: ', profile.job);
-        //     // console.log('profile.ofice.name: ', profile.office.name);
-        //     // console.log('profile.area: ', profile.area);
-        //     // console.log('profile.project: ', profile.project);
-        //     // console.log('profile.account: ', profile.account);
-        //
-        //     StarmeupAddonFacebook.addProfile(profile);
-        //   }
-        // });
-      }else{
-        // alert('Error');
-        // console.log('Error');
+        // console.log('data.errorCode: ', data.errorCode);
+        if (data.errorCode == 100) { // fail validation
+          $('#formStarmeUp .error').addClass('show');
+        }else{
+          $('#formStarmeUp .error').removeClass('show');
+          var profile = data.result;
+          StarmeupAddonFacebook.addProfile(profile);
+        }
       }
     }
     xhr.send();
