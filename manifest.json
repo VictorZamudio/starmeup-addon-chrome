@@ -28,6 +28,7 @@
     "tabs",
     "storage",
     "activeTab",
+    "webNavigation",
     "http://*/*",
     "https://*/*",
     "https://www.facebook.com/*"

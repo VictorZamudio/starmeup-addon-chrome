@@ -60,6 +60,8 @@ if (localStorage.getItem('profile_loaded') === 'true') {
 // });
 
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+  console.log('************************************');
+  console.log('message: ', message);
   if (message.remove === true) {
     StarmeupAddonFacebook.remove();
   }else{
@@ -70,10 +72,10 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
     localStorage.setItem('profile_loaded', true);
     localStorage.setItem('profileLS', profile_str);
 
-    console.log('-----------------------------------');
-    console.log('hi from content.js');
-    console.log('The message from content.js is: ', message);
-    console.log("localStorage['profileLS']: ", localStorage['profileLS']);
+    // console.log('-----------------------------------');
+    // console.log('hi from content.js');
+    // console.log('The message from content.js is: ', message);
+    // console.log("localStorage['profileLS']: ", localStorage['profileLS']);
     // console.log('profile.company: ', profile.organizationName);
     // console.log('profile.position: ', profile.job);
     // console.log('profile.ofice.name: ', profile.office.name);
