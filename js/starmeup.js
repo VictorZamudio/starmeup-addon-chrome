@@ -2,6 +2,10 @@ var StarmeupAddonFacebook = StarmeupAddonFacebook || {};
 StarmeupAddonFacebook.enabledLogger = true;
 console.log('STARMEUP.JS');
 
+chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
+  sendResponse({farewell:"goodbye"});
+});
+
 StarmeupAddonFacebook.getLogger = function(name){
   if (StarmeupAddonFacebook.enabledLogger) {
     return {
@@ -23,20 +27,22 @@ StarmeupAddonFacebook.getLogger = function(name){
 };
 
 StarmeupAddonFacebook.addProfile = function(profile){
-  chrome.storage.local.set({
-    'profile': profile
-  }, function(){
-      chrome.tabs.getSelected(null, function(tab){
-        console.log('tab: ', tab);
-        chrome.tabs.sendMessage(tab.id, {'type': 'profile', 'profile': profile});
-
-        chrome.webNavigation.onCompleted.addListener(function (){
-          chrome.tabs.sendMessage(tab.id, {'type': 'load', 'page_loaded': 'true', 'profile': profile});
-        });
-
-      });
+  // chrome.storage.local.set({
+  //   'profile': profile
+  // }, function(){
+  // });
+  chrome.tabs.getSelected(null, function(tab){
+    chrome.webNavigation.onCompleted.addListener(function (){
+      chrome.tabs.sendMessage(tab.id, {'type': 'load', 'page_loaded': 'true', 'profile': profile});
+    });
   });
 
+  chrome.tabs.getSelected(null, function(tab){
+    // console.log('tab: ', tab);
+    chrome.tabs.sendMessage(tab.id, {'type': 'profile', 'profile': profile});
+
+
+  });
 
 };
 

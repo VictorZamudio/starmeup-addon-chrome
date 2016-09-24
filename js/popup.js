@@ -27,7 +27,11 @@ window.onload = function(){
         }else{
           $('#formStarmeUp .error').removeClass('show');
           var profile = data.result;
-          StarmeupAddonFacebook.addProfile(profile);
+
+          chrome.tabs.query({'active': true}, function(Tabs){
+            // console.log(Tabs);
+            chrome.tabs.sendMessage(Tabs[1].id, {'type': 'profile', 'profile': profile});
+          });
         }
       }
     }

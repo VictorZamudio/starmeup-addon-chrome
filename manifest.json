@@ -8,7 +8,7 @@
     "48": "img/logo-login.png"
   },
   "background": {
-    "scripts": ["js/jquery-2.2.4.min.js", "js/starmeup.js"],
+    "scripts": ["js/jquery-2.2.4.min.js", "js/background.js"],
     "persistent": false
   },
   "browser_action": {
@@ -20,10 +20,10 @@
     {
       "matches": ["https://www.facebook.com/*"],
       "css": ["css/bootstrap.min.css", "css/font-awesome.min.css", "css/addon-smu-fb.min.css"],
-      "js": ["js/jquery-2.2.4.min.js", "js/starmeup.js", "js/content.js"]
+      "js": ["js/jquery-2.2.4.min.js", "js/content.js"]
     }
   ],
-  "web_accessible_resources": ["js/jquery-2.2.4.min.js", "js/content.js", "fonts/*", "css/addon-smu-fb.min.css"],
+  "web_accessible_resources": ["js/jquery-2.2.4.min.js", "fonts/*", "css/addon-smu-fb.min.css"],
   "permissions": [
     "tabs",
     "storage",
