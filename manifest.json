@@ -19,7 +19,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.facebook.com/*"],
-      "css": ["css/bootstrap.min.css", "css/font-awesome.min.css", "css/addon-smu-fb.min.css"],
+      "css": ["css/bootstrap.min.css", "css/font-awesome.min.css", "css/addon-smu-chrome.min.css"],
       "js": ["js/jquery-2.2.4.min.js", "js/content.js"]
     }
   ],
